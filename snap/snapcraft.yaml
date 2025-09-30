@@ -1,6 +1,16 @@
+title: "Openbao"
+license: MIT
+source-code:
+  - https://github.com/openbao/openbao
+issues:
+  - https://github.com/durrendal/openbao-snap
+website:
+  - https://openbao.org/docs/what-is-openbao/
+contact:
+  - durrendal@lambdacreate.com
 name: openbao
 base: core24
-version: v2.2.1
+version: v2.4.1
 summary: Open source secrets management solution
 description: |
   OpenBao is an open source, community-driven fork of HashiCorp Vault, 

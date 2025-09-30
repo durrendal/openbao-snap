@@ -1,0 +1,64 @@
+name: openbao
+base: core24
+version: v2.2.1
+summary: Open source secrets management solution
+description: |
+  OpenBao is an open source, community-driven fork of HashiCorp Vault, 
+  managed by the Linux Foundation. It provides secure storage and access 
+  to secrets, certificates, and keys.
+  
+  Features:
+  - Secure secret storage with encryption at rest
+  - Dynamic secrets generation for AWS, databases, etc.
+  - Data encryption as a service
+  - Leasing and renewal of secrets
+  - Revocation of secrets and credentials
+  - Multiple authentication methods
+  - Detailed audit logs
+  
+  See https://openbao.org/docs for full documentation.
+
+grade: stable
+confinement: strict
+
+apps:
+  bao:
+    command: bin/bao
+    plugs:
+      - network
+      - network-bind
+      - home
+  
+  server:
+    command: bin/bao server
+    daemon: simple
+    restart-condition: always
+    plugs:
+      - network
+      - network-bind
+    environment:
+      BAO_CONFIG_PATH: $SNAP_DATA/config.hcl
+
+layout:
+  /etc/openbao:
+    bind: $SNAP_DATA/etc
+
+parts:
+  openbao:
+    plugin: go
+    source: https://github.com/openbao/openbao.git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    build-snaps:
+      - go/latest/stable
+    build-packages:
+      - make
+      - git
+    override-build: |
+      # Build OpenBao
+      make bootstrap
+      make dev
+      
+      # Install binaries
+      install -D -m755 bin/bao $SNAPCRAFT_PART_INSTALL/bin/bao
+    stage-packages:
+      - ca-certificates

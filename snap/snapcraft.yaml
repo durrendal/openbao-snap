@@ -10,7 +10,7 @@ contact:
   - durrendal@lambdacreate.com
 name: openbao
 base: core24
-version: v2.4.1
+version: v2.4.3
 summary: Open source secrets management solution
 description: |
   OpenBao is an open source, community-driven fork of HashiCorp Vault, 
